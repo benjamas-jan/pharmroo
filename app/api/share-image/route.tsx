@@ -6,29 +6,30 @@ export const runtime = "edge";
 const isRisk = (v: string | null): v is RiskLevel =>
   v === "low" || v === "moderate" || v === "high" || v === "very_high";
 
-// ── Gauge geometry (mirrors components/ui/RiskGauge.tsx) ──────────────────
+// Gauge geometry — same numbers as components/ui/RiskGauge.tsx
 const cx = 130;
 const cy = 130;
 const r = 100;
 const startA = Math.PI * 0.85;
 const endA = Math.PI * 2.15;
 
-function polar(a: number) {
-  return { x: cx + r * Math.cos(a), y: cy + r * Math.sin(a) };
-}
+const polar = (a: number) => ({
+  x: cx + r * Math.cos(a),
+  y: cy + r * Math.sin(a),
+});
 
-function arcPath(from: number, to: number) {
+const arcPath = (from: number, to: number) => {
   const s = polar(from);
   const e = polar(to);
   const large = to - from > Math.PI ? 1 : 0;
   return `M ${s.x} ${s.y} A ${r} ${r} 0 ${large} 1 ${e.x} ${e.y}`;
-}
+};
 
-function bandArc(from: number, to: number) {
+const bandArc = (from: number, to: number) => {
   const a1 = startA + (endA - startA) * (from / 100);
   const a2 = startA + (endA - startA) * (to / 100);
   return arcPath(a1, a2);
-}
+};
 
 export async function GET(req: Request) {
   try {
@@ -60,6 +61,8 @@ export async function GET(req: Request) {
     const norm = Math.max(0, Math.min(100, score));
     const fillToA = startA + (endA - startA) * (norm / 100);
 
+    // SVG: 420w x 320h, viewBox 260x200 (1.6x scale).
+    // Score text sits inside the gauge bowl, centered horizontally over the arc.
     return new ImageResponse(
       (
         <div
@@ -72,13 +75,13 @@ export async function GET(req: Request) {
             fontFamily: "system-ui",
           }}
         >
-          {/* Brand bar */}
+          {/* Brand */}
           <div
             style={{
               display: "flex",
               alignItems: "center",
               gap: 14,
-              padding: "32px 50px 0",
+              padding: "30px 50px 0",
             }}
           >
             <div
@@ -107,20 +110,19 @@ export async function GET(req: Request) {
             </div>
           </div>
 
-          {/* Main two-column area */}
-          <div style={{ display: "flex", flex: 1, padding: "10px 50px 30px" }}>
-            {/* Left: gauge */}
+          {/* Body */}
+          <div style={{ display: "flex", flex: 1, padding: "0 50px 40px" }}>
+            {/* Left: gauge + score overlay */}
             <div
               style={{
-                width: 520,
+                width: 460,
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
                 position: "relative",
               }}
             >
-              <svg width="520" height="400" viewBox="0 0 260 200">
-                {/* Background bands */}
+              <svg width="420" height="320" viewBox="0 0 260 200">
                 {bands.map((b, i) => (
                   <path
                     key={i}
@@ -132,7 +134,6 @@ export async function GET(req: Request) {
                     strokeLinecap="butt"
                   />
                 ))}
-                {/* Tick marks */}
                 {ticks.map(({ v, color }) => {
                   const a = startA + (endA - startA) * (v / 100);
                   const inner = {
@@ -156,7 +157,6 @@ export async function GET(req: Request) {
                     />
                   );
                 })}
-                {/* Active arc */}
                 <path
                   d={arcPath(startA, fillToA)}
                   stroke={riskColor}
@@ -166,11 +166,11 @@ export async function GET(req: Request) {
                 />
               </svg>
 
-              {/* Score overlay */}
+              {/* Score, centered inside the arc bowl */}
               <div
                 style={{
                   position: "absolute",
-                  top: 110,
+                  top: 130,
                   left: 0,
                   right: 0,
                   display: "flex",
@@ -181,7 +181,7 @@ export async function GET(req: Request) {
                 <div
                   style={{
                     display: "flex",
-                    fontSize: 130,
+                    fontSize: 100,
                     fontWeight: 700,
                     color: riskColor,
                     lineHeight: 1,
@@ -202,30 +202,9 @@ export async function GET(req: Request) {
                   คะแนนความเสี่ยง
                 </div>
               </div>
-
-              {/* Band legend below gauge */}
-              <div
-                style={{
-                  position: "absolute",
-                  bottom: 70,
-                  left: 0,
-                  right: 0,
-                  display: "flex",
-                  justifyContent: "space-around",
-                  paddingLeft: 30,
-                  paddingRight: 30,
-                  fontSize: 16,
-                  fontWeight: 700,
-                }}
-              >
-                <span style={{ display: "flex", color: RISK_COLORS.low }}>ต่ำ</span>
-                <span style={{ display: "flex", color: RISK_COLORS.moderate }}>ปานกลาง</span>
-                <span style={{ display: "flex", color: RISK_COLORS.high }}>สูง</span>
-                <span style={{ display: "flex", color: RISK_COLORS.very_high }}>สูงมาก</span>
-              </div>
             </div>
 
-            {/* Right: risk label + headline + CTA */}
+            {/* Right: risk pill + headline + CTA */}
             <div
               style={{
                 flex: 1,
@@ -233,14 +212,14 @@ export async function GET(req: Request) {
                 flexDirection: "column",
                 justifyContent: "center",
                 paddingLeft: 40,
-                gap: 14,
+                gap: 16,
               }}
             >
               <div
                 style={{
                   display: "flex",
                   alignSelf: "flex-start",
-                  padding: "8px 20px",
+                  padding: "8px 22px",
                   borderRadius: 999,
                   background: riskColor,
                   color: "#fff",
