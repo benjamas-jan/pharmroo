@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { IBM_Plex_Sans_Thai, IBM_Plex_Sans } from "next/font/google";
+import { Analytics } from "@vercel/analytics/next";
 import "./globals.css";
 
 const plexThai = IBM_Plex_Sans_Thai({
@@ -31,6 +32,11 @@ export const metadata: Metadata = {
     locale: "th_TH",
     type: "website",
   },
+  twitter: {
+    card: "summary_large_image",
+    title: "Pharmroo · ฟามรู้",
+    description: "ประเมินความเสี่ยงโรค NCDs ใน 2 นาที",
+  },
 };
 
 export const viewport: Viewport = {
@@ -47,7 +53,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang="th" className={`${plexThai.variable} ${plexLatin.variable}`}>
-      <body>{children}</body>
+      <body>
+        {children}
+        <Analytics />
+      </body>
     </html>
   );
 }

@@ -45,18 +45,43 @@ Assessment answers are **not** persisted.
    NEXT_PUBLIC_SUPABASE_URL=https://YOUR_PROJECT.supabase.co
    SUPABASE_SERVICE_ROLE_KEY=eyJ...
    NEXT_PUBLIC_SITE_URL=https://pharmroo.com
+   ADMIN_PASSWORD=...                  # for /admin/leads
+   LEAD_NOTIFICATION_WEBHOOK=...       # optional: Slack/Discord/Zapier URL
    ```
 4. Deploy
+
+## Admin
+
+`/admin/leads` lists the latest 500 leads, ordered newest-first. Protected
+by HTTP Basic Auth using `ADMIN_PASSWORD` — the browser shows a native
+login prompt (any username, the password is checked).
+
+## Lead notifications
+
+Set `LEAD_NOTIFICATION_WEBHOOK` to a Slack/Discord/Zapier/n8n webhook URL
+to get pinged when a new lead is submitted. The payload sends both `text`
+(Slack format) and `content` (Discord format) fields, so the same URL
+works for either platform. Leave the env var blank to disable.
+
+## Analytics
+
+Vercel Analytics is wired into the root layout. Open the **Analytics** tab
+in the Vercel dashboard to see traffic — no extra setup needed once the
+project is on Vercel.
 
 ## Project structure
 
 ```
 app/
-  layout.tsx          # fonts, metadata
-  page.tsx            # state machine (welcome → sections → result → consult)
-  globals.css         # Tailwind + design tokens
+  layout.tsx              # fonts, metadata, Vercel Analytics
+  page.tsx                # state machine (welcome → sections → result → consult)
+  globals.css             # Tailwind + design tokens
+  opengraph-image.tsx     # dynamic OG image for link previews
   actions/
-    submit-lead.ts    # Server Action → Supabase
+    submit-lead.ts        # Server Action → Supabase + webhook
+  admin/
+    leads/page.tsx        # protected admin view
+middleware.ts             # HTTP Basic Auth for /admin/*
 components/
   ui/                 # ChoiceCard, PillChoice, NumberField, PrimaryButton,
                       # SectionProgress, QHeader, SectionHeader, RiskGauge
@@ -68,6 +93,7 @@ components/
 lib/
   assessment.ts       # types + scoring (Thai CPG Obesity 2568)
   supabase.ts         # admin client (server-only)
+  notify.ts           # webhook notification on new lead
 supabase/
   migrations/0001_init.sql
 design/               # original HTML/JSX prototype — reference only

@@ -1,6 +1,7 @@
 "use server";
 
 import { getSupabaseAdmin } from "@/lib/supabase";
+import { notifyNewLead } from "@/lib/notify";
 import type { RiskLevel } from "@/lib/assessment";
 
 export interface SubmitLeadInput {
@@ -40,6 +41,15 @@ export async function submitLead(input: SubmitLeadInput): Promise<SubmitLeadResu
       console.error("[submitLead] Supabase error:", error);
       return { ok: false, error: "ไม่สามารถส่งข้อมูลได้ กรุณาลองอีกครั้ง" };
     }
+
+    // Fire-and-forget — don't block the response on the webhook
+    notifyNewLead({
+      name,
+      phone,
+      concern,
+      riskLevel: input.riskLevel,
+      totalScore: input.totalScore,
+    });
 
     return { ok: true };
   } catch (e) {
