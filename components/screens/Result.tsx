@@ -93,31 +93,12 @@ export function Result({ answers, onConsult, onRestart }: ResultProps) {
     setTimeout(() => setShareToast(null), 2400);
   };
 
-  const shareUrl =
-    typeof window !== "undefined" ? window.location.origin : "https://pharmroo.com";
-  const shareText = `ฉันเพิ่งทำแบบประเมินความเสี่ยง NCDs ที่ Pharmroo · ${meta.label} (${score.total} คะแนน) ลองทำดู`;
-
   const shareToLine = () => {
-    const text = encodeURIComponent(`${shareText}\n${shareUrl}`);
-    window.open(`https://line.me/R/msg/text/?${text}`, "_blank");
-  };
-
-  const shareToFacebook = () => {
-    const url = encodeURIComponent(shareUrl);
-    window.open(
-      `https://www.facebook.com/sharer/sharer.php?u=${url}`,
-      "_blank",
-      "noopener,width=600,height=600"
-    );
-  };
-
-  const copyLink = async () => {
-    try {
-      await navigator.clipboard.writeText(shareUrl);
-      showToast("คัดลอกลิงก์แล้ว");
-    } catch {
-      showToast("คัดลอกไม่สำเร็จ");
-    }
+    const origin =
+      typeof window !== "undefined" ? window.location.origin : "https://pharmroo.com";
+    const shareUrl = `${origin}/share?score=${score.total}&risk=${riskLevel}`;
+    const text = `ฉันเพิ่งทำแบบประเมินความเสี่ยง NCDs ที่ Pharmroo · ${meta.label} (${score.total} คะแนน) ลองทำดูสิ\n${shareUrl}`;
+    window.open(`https://line.me/R/msg/text/?${encodeURIComponent(text)}`, "_blank");
   };
 
   const downloadImage = async () => {
@@ -136,7 +117,7 @@ export function Result({ answers, onConsult, onRestart }: ResultProps) {
       a.click();
       a.remove();
       URL.revokeObjectURL(url);
-      showToast("บันทึกรูปแล้ว · เอาไปโพสต์ใน IG/FB ได้เลย");
+      showToast("บันทึกรูปแล้ว · เอาไปโพสต์ที่ไหนก็ได้");
     } catch {
       showToast("บันทึกรูปไม่สำเร็จ");
     } finally {
@@ -173,6 +154,43 @@ export function Result({ answers, onConsult, onRestart }: ResultProps) {
           {meta.body}
         </div>
       </div>
+
+      {/* Share row — directly under score card */}
+      <div className="mt-4 grid grid-cols-2 gap-2">
+        <button
+          type="button"
+          onClick={shareToLine}
+          className="flex items-center justify-center gap-2 h-12 rounded-[14px] bg-[#06C755] text-white font-semibold text-[14px] active:opacity-90 transition-opacity"
+        >
+          <span className="w-6 h-6 rounded-full bg-white text-[#06C755] flex items-center justify-center text-[13px] font-bold font-[var(--font-latin)]">
+            L
+          </span>
+          แชร์ไปที่ LINE
+        </button>
+        <button
+          type="button"
+          onClick={downloadImage}
+          disabled={downloading}
+          className="flex items-center justify-center gap-2 h-12 rounded-[14px] bg-[var(--color-card)] border-[1.5px] border-[var(--color-line)] text-[var(--color-ink)] font-semibold text-[14px] disabled:opacity-50"
+        >
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+            <path
+              d="M8 1.5V11M8 11L4 7M8 11L12 7M2 13.5h12"
+              stroke="currentColor"
+              strokeWidth="1.7"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
+          {downloading ? "กำลังบันทึก..." : "บันทึกรูป"}
+        </button>
+      </div>
+
+      {shareToast && (
+        <div className="mt-2 px-3 py-2 text-center text-[12px] text-[var(--color-ink-soft)] bg-[var(--color-primary-soft)] rounded-[10px]">
+          {shareToast}
+        </div>
+      )}
 
       <div className="mt-7 mb-3 text-[18px] font-bold text-[var(--color-ink)] tracking-[-0.01em]">
         ความเสี่ยงแต่ละด้าน
@@ -218,84 +236,6 @@ export function Result({ answers, onConsult, onRestart }: ResultProps) {
           ทำแบบประเมินใหม่
         </PrimaryButton>
       </div>
-
-      <div className="mt-7">
-        <div className="text-[13px] font-semibold text-[var(--color-ink-soft)] mb-3 text-center">
-          แชร์ให้เพื่อน
-        </div>
-        <div className="grid grid-cols-4 gap-2">
-          <button
-            type="button"
-            onClick={shareToLine}
-            className="flex flex-col items-center gap-1.5 py-3 rounded-xl bg-[var(--color-card)] border border-[var(--color-line)] hover:border-[var(--color-primary)] transition-colors"
-          >
-            <span className="w-9 h-9 rounded-full bg-[#06C755] text-white flex items-center justify-center text-[16px] font-bold font-[var(--font-latin)]">
-              L
-            </span>
-            <span className="text-[11px] font-semibold text-[var(--color-ink)]">
-              LINE
-            </span>
-          </button>
-          <button
-            type="button"
-            onClick={shareToFacebook}
-            className="flex flex-col items-center gap-1.5 py-3 rounded-xl bg-[var(--color-card)] border border-[var(--color-line)] hover:border-[var(--color-primary)] transition-colors"
-          >
-            <span className="w-9 h-9 rounded-full bg-[#1877F2] text-white flex items-center justify-center text-[18px] font-bold font-[var(--font-latin)]">
-              f
-            </span>
-            <span className="text-[11px] font-semibold text-[var(--color-ink)]">
-              Facebook
-            </span>
-          </button>
-          <button
-            type="button"
-            onClick={downloadImage}
-            disabled={downloading}
-            className="flex flex-col items-center gap-1.5 py-3 rounded-xl bg-[var(--color-card)] border border-[var(--color-line)] hover:border-[var(--color-primary)] transition-colors disabled:opacity-50"
-          >
-            <span className="w-9 h-9 rounded-full bg-[var(--color-primary-soft)] text-[var(--color-primary)] flex items-center justify-center">
-              <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                <path
-                  d="M8 1.5V11M8 11L4 7M8 11L12 7M2 13.5h12"
-                  stroke="currentColor"
-                  strokeWidth="1.7"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
-            </span>
-            <span className="text-[11px] font-semibold text-[var(--color-ink)]">
-              บันทึกรูป
-            </span>
-          </button>
-          <button
-            type="button"
-            onClick={copyLink}
-            className="flex flex-col items-center gap-1.5 py-3 rounded-xl bg-[var(--color-card)] border border-[var(--color-line)] hover:border-[var(--color-primary)] transition-colors"
-          >
-            <span className="w-9 h-9 rounded-full bg-[var(--color-primary-soft)] text-[var(--color-primary)] flex items-center justify-center">
-              <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                <path
-                  d="M6.5 9.5L9.5 6.5M5 11l-.5.5a2.5 2.5 0 01-3.5-3.5L4 5M11 5l.5-.5a2.5 2.5 0 013.5 3.5L12 11"
-                  stroke="currentColor"
-                  strokeWidth="1.6"
-                  strokeLinecap="round"
-                />
-              </svg>
-            </span>
-            <span className="text-[11px] font-semibold text-[var(--color-ink)]">
-              คัดลอกลิงก์
-            </span>
-          </button>
-        </div>
-      </div>
-
-      {shareToast && (
-        <div className="mt-3 px-3 py-2 text-center text-[12px] text-[var(--color-ink-soft)] bg-[var(--color-primary-soft)] rounded-[10px]">
-          {shareToast}
-        </div>
-      )}
 
       <div className="mt-4 text-[12px] text-[var(--color-ink-mute)] text-center leading-relaxed">
         ผลลัพธ์นี้เป็นเพียงแนวทางเบื้องต้น
