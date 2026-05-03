@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { PrimaryButton } from "@/components/ui/PrimaryButton";
 
 interface WelcomeProps {
@@ -29,32 +30,16 @@ export function Welcome({ onStart }: WelcomeProps) {
       </div>
 
       {/* Hero */}
-      <div className="relative h-[180px] mb-6 rounded-3xl overflow-hidden bg-[var(--color-primary-soft)]">
-        <svg
-          width="100%"
-          height="100%"
-          viewBox="0 0 320 180"
-          preserveAspectRatio="xMidYMid slice"
-          className="absolute inset-0"
-        >
-          <defs>
-            <pattern
-              id="dots"
-              x="0"
-              y="0"
-              width="14"
-              height="14"
-              patternUnits="userSpaceOnUse"
-            >
-              <circle cx="2" cy="2" r="1" fill="#3C5A48" fillOpacity="0.18" />
-            </pattern>
-          </defs>
-          <rect width="320" height="180" fill="url(#dots)" />
-          <circle cx="80" cy="100" r="60" fill="#3C5A48" fillOpacity="0.18" />
-          <circle cx="220" cy="70" r="42" fill="#C7B89E" fillOpacity="0.55" />
-          <circle cx="240" cy="130" r="28" fill="#3C5A48" fillOpacity="0.30" />
-        </svg>
-        <div className="absolute left-5 bottom-4 bg-white px-2.5 py-1.5 rounded-full text-[11px] text-[var(--color-ink-soft)] font-semibold shadow-sm">
+      <div className="relative aspect-[3/2] mb-6 rounded-3xl overflow-hidden bg-[var(--color-primary-soft)]">
+        <Image
+          src="/hero.png"
+          alt="ประเมินความเสี่ยง NCDs"
+          fill
+          priority
+          sizes="(max-width: 420px) 100vw, 420px"
+          className="object-cover"
+        />
+        <div className="absolute left-4 bottom-4 bg-white px-2.5 py-1.5 rounded-full text-[11px] text-[var(--color-ink-soft)] font-semibold shadow-sm">
           ⏱ ใช้เวลา 2 นาที
         </div>
       </div>
