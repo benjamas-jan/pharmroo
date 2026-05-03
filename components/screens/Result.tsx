@@ -85,46 +85,62 @@ export function Result({ answers, onConsult, onRestart }: ResultProps) {
   const tips = pickInsights(answers, score);
   const riskColor = RISK_COLORS[riskLevel];
 
-  const [sharing, setSharing] = useState(false);
+  const [downloading, setDownloading] = useState(false);
   const [shareToast, setShareToast] = useState<string | null>(null);
 
-  const handleShare = async () => {
-    if (sharing) return;
-    setSharing(true);
-    setShareToast(null);
+  const showToast = (msg: string) => {
+    setShareToast(msg);
+    setTimeout(() => setShareToast(null), 2400);
+  };
+
+  const shareUrl =
+    typeof window !== "undefined" ? window.location.origin : "https://pharmroo.com";
+  const shareText = `ฉันเพิ่งทำแบบประเมินความเสี่ยง NCDs ที่ Pharmroo · ${meta.label} (${score.total} คะแนน) ลองทำดู`;
+
+  const shareToLine = () => {
+    const text = encodeURIComponent(`${shareText}\n${shareUrl}`);
+    window.open(`https://line.me/R/msg/text/?${text}`, "_blank");
+  };
+
+  const shareToFacebook = () => {
+    const url = encodeURIComponent(shareUrl);
+    window.open(
+      `https://www.facebook.com/sharer/sharer.php?u=${url}`,
+      "_blank",
+      "noopener,width=600,height=600"
+    );
+  };
+
+  const copyLink = async () => {
     try {
-      const imgUrl = `/api/share-image?score=${score.total}&risk=${riskLevel}`;
-      const res = await fetch(imgUrl);
+      await navigator.clipboard.writeText(shareUrl);
+      showToast("คัดลอกลิงก์แล้ว");
+    } catch {
+      showToast("คัดลอกไม่สำเร็จ");
+    }
+  };
+
+  const downloadImage = async () => {
+    if (downloading) return;
+    setDownloading(true);
+    try {
+      const res = await fetch(
+        `/api/share-image?score=${score.total}&risk=${riskLevel}`
+      );
       const blob = await res.blob();
-      const file = new File([blob], "pharmroo-result.png", { type: "image/png" });
-
-      const shareUrl =
-        typeof window !== "undefined" ? window.location.origin : "https://pharmroo.com";
-      const shareText = `ฉันเพิ่งทำแบบประเมินความเสี่ยง NCDs ที่ Pharmroo · ${meta.label} (${score.total} คะแนน)\nลองทำดูได้ที่ ${shareUrl}`;
-
-      const nav = navigator as Navigator & {
-        canShare?: (data: ShareData) => boolean;
-      };
-
-      if (nav.canShare?.({ files: [file] }) && nav.share) {
-        await nav.share({ files: [file], text: shareText, url: shareUrl });
-      } else if (nav.share) {
-        await nav.share({ text: shareText, url: shareUrl });
-      } else {
-        // Desktop fallback: open the image so user can save/share manually
-        const blobUrl = URL.createObjectURL(blob);
-        window.open(blobUrl, "_blank");
-        setShareToast("เปิดรูปในแท็บใหม่แล้ว — กดบันทึกหรือคัดลอกได้เลย");
-      }
-    } catch (e) {
-      const err = e as { name?: string };
-      if (err.name !== "AbortError") {
-        console.error("[share] failed:", e);
-        setShareToast("แชร์ไม่สำเร็จ ลองอีกครั้ง");
-      }
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = `pharmroo-result-${score.total}.png`;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      URL.revokeObjectURL(url);
+      showToast("บันทึกรูปแล้ว · เอาไปโพสต์ใน IG/FB ได้เลย");
+    } catch {
+      showToast("บันทึกรูปไม่สำเร็จ");
     } finally {
-      setSharing(false);
-      if (shareToast) setTimeout(() => setShareToast(null), 3000);
+      setDownloading(false);
     }
   };
 
@@ -198,12 +214,81 @@ export function Result({ answers, onConsult, onRestart }: ResultProps) {
 
       <div className="mt-6 flex flex-col gap-2.5">
         <PrimaryButton onClick={onConsult}>ปรึกษาผู้เชี่ยวชาญ →</PrimaryButton>
-        <PrimaryButton variant="ghost" onClick={handleShare} disabled={sharing}>
-          {sharing ? "กำลังเตรียมรูป..." : "แชร์ผลลัพธ์"}
-        </PrimaryButton>
         <PrimaryButton variant="ghost" onClick={onRestart}>
           ทำแบบประเมินใหม่
         </PrimaryButton>
+      </div>
+
+      <div className="mt-7">
+        <div className="text-[13px] font-semibold text-[var(--color-ink-soft)] mb-3 text-center">
+          แชร์ให้เพื่อน
+        </div>
+        <div className="grid grid-cols-4 gap-2">
+          <button
+            type="button"
+            onClick={shareToLine}
+            className="flex flex-col items-center gap-1.5 py-3 rounded-xl bg-[var(--color-card)] border border-[var(--color-line)] hover:border-[var(--color-primary)] transition-colors"
+          >
+            <span className="w-9 h-9 rounded-full bg-[#06C755] text-white flex items-center justify-center text-[16px] font-bold font-[var(--font-latin)]">
+              L
+            </span>
+            <span className="text-[11px] font-semibold text-[var(--color-ink)]">
+              LINE
+            </span>
+          </button>
+          <button
+            type="button"
+            onClick={shareToFacebook}
+            className="flex flex-col items-center gap-1.5 py-3 rounded-xl bg-[var(--color-card)] border border-[var(--color-line)] hover:border-[var(--color-primary)] transition-colors"
+          >
+            <span className="w-9 h-9 rounded-full bg-[#1877F2] text-white flex items-center justify-center text-[18px] font-bold font-[var(--font-latin)]">
+              f
+            </span>
+            <span className="text-[11px] font-semibold text-[var(--color-ink)]">
+              Facebook
+            </span>
+          </button>
+          <button
+            type="button"
+            onClick={downloadImage}
+            disabled={downloading}
+            className="flex flex-col items-center gap-1.5 py-3 rounded-xl bg-[var(--color-card)] border border-[var(--color-line)] hover:border-[var(--color-primary)] transition-colors disabled:opacity-50"
+          >
+            <span className="w-9 h-9 rounded-full bg-[var(--color-primary-soft)] text-[var(--color-primary)] flex items-center justify-center">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                <path
+                  d="M8 1.5V11M8 11L4 7M8 11L12 7M2 13.5h12"
+                  stroke="currentColor"
+                  strokeWidth="1.7"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+            </span>
+            <span className="text-[11px] font-semibold text-[var(--color-ink)]">
+              บันทึกรูป
+            </span>
+          </button>
+          <button
+            type="button"
+            onClick={copyLink}
+            className="flex flex-col items-center gap-1.5 py-3 rounded-xl bg-[var(--color-card)] border border-[var(--color-line)] hover:border-[var(--color-primary)] transition-colors"
+          >
+            <span className="w-9 h-9 rounded-full bg-[var(--color-primary-soft)] text-[var(--color-primary)] flex items-center justify-center">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                <path
+                  d="M6.5 9.5L9.5 6.5M5 11l-.5.5a2.5 2.5 0 01-3.5-3.5L4 5M11 5l.5-.5a2.5 2.5 0 013.5 3.5L12 11"
+                  stroke="currentColor"
+                  strokeWidth="1.6"
+                  strokeLinecap="round"
+                />
+              </svg>
+            </span>
+            <span className="text-[11px] font-semibold text-[var(--color-ink)]">
+              คัดลอกลิงก์
+            </span>
+          </button>
+        </div>
       </div>
 
       {shareToast && (
