@@ -85,6 +85,49 @@ export function Result({ answers, onConsult, onRestart }: ResultProps) {
   const tips = pickInsights(answers, score);
   const riskColor = RISK_COLORS[riskLevel];
 
+  const [sharing, setSharing] = useState(false);
+  const [shareToast, setShareToast] = useState<string | null>(null);
+
+  const handleShare = async () => {
+    if (sharing) return;
+    setSharing(true);
+    setShareToast(null);
+    try {
+      const imgUrl = `/api/share-image?score=${score.total}&risk=${riskLevel}`;
+      const res = await fetch(imgUrl);
+      const blob = await res.blob();
+      const file = new File([blob], "pharmroo-result.png", { type: "image/png" });
+
+      const shareUrl =
+        typeof window !== "undefined" ? window.location.origin : "https://pharmroo.com";
+      const shareText = `ฉันเพิ่งทำแบบประเมินความเสี่ยง NCDs ที่ Pharmroo · ${meta.label} (${score.total} คะแนน)\nลองทำดูได้ที่ ${shareUrl}`;
+
+      const nav = navigator as Navigator & {
+        canShare?: (data: ShareData) => boolean;
+      };
+
+      if (nav.canShare?.({ files: [file] }) && nav.share) {
+        await nav.share({ files: [file], text: shareText, url: shareUrl });
+      } else if (nav.share) {
+        await nav.share({ text: shareText, url: shareUrl });
+      } else {
+        // Desktop fallback: open the image so user can save/share manually
+        const blobUrl = URL.createObjectURL(blob);
+        window.open(blobUrl, "_blank");
+        setShareToast("เปิดรูปในแท็บใหม่แล้ว — กดบันทึกหรือคัดลอกได้เลย");
+      }
+    } catch (e) {
+      const err = e as { name?: string };
+      if (err.name !== "AbortError") {
+        console.error("[share] failed:", e);
+        setShareToast("แชร์ไม่สำเร็จ ลองอีกครั้ง");
+      }
+    } finally {
+      setSharing(false);
+      if (shareToast) setTimeout(() => setShareToast(null), 3000);
+    }
+  };
+
   return (
     <div className="px-5 pt-5 pb-8">
       <div className="flex justify-center items-center gap-1.5 text-[13px] font-bold text-[var(--color-ink-mute)] tracking-[0.18em] mb-2">
@@ -155,10 +198,19 @@ export function Result({ answers, onConsult, onRestart }: ResultProps) {
 
       <div className="mt-6 flex flex-col gap-2.5">
         <PrimaryButton onClick={onConsult}>ปรึกษาผู้เชี่ยวชาญ →</PrimaryButton>
+        <PrimaryButton variant="ghost" onClick={handleShare} disabled={sharing}>
+          {sharing ? "กำลังเตรียมรูป..." : "แชร์ผลลัพธ์"}
+        </PrimaryButton>
         <PrimaryButton variant="ghost" onClick={onRestart}>
           ทำแบบประเมินใหม่
         </PrimaryButton>
       </div>
+
+      {shareToast && (
+        <div className="mt-3 px-3 py-2 text-center text-[12px] text-[var(--color-ink-soft)] bg-[var(--color-primary-soft)] rounded-[10px]">
+          {shareToast}
+        </div>
+      )}
 
       <div className="mt-4 text-[12px] text-[var(--color-ink-mute)] text-center leading-relaxed">
         ผลลัพธ์นี้เป็นเพียงแนวทางเบื้องต้น
