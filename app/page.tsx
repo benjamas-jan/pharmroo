@@ -32,9 +32,8 @@ export default function PharmrooApp() {
   );
 
   useEffect(() => {
-    if (scrollRef.current) {
-      scrollRef.current.scrollTo({ top: 0, behavior: "instant" });
-    }
+    window.scrollTo({ top: 0, behavior: "auto" });
+    scrollRef.current?.scrollTo({ top: 0, behavior: "auto" });
   }, [step]);
 
   const sectionStep = step >= 1 && step <= 4 ? (step as 1 | 2 | 3 | 4) : null;
