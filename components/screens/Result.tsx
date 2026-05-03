@@ -85,44 +85,12 @@ export function Result({ answers, onConsult, onRestart }: ResultProps) {
   const tips = pickInsights(answers, score);
   const riskColor = RISK_COLORS[riskLevel];
 
-  const [downloading, setDownloading] = useState(false);
-  const [shareToast, setShareToast] = useState<string | null>(null);
-
-  const showToast = (msg: string) => {
-    setShareToast(msg);
-    setTimeout(() => setShareToast(null), 2400);
-  };
-
   const shareToLine = () => {
     const origin =
       typeof window !== "undefined" ? window.location.origin : "https://pharmroo.com";
     const shareUrl = `${origin}/share?score=${score.total}&risk=${riskLevel}`;
     const text = `ฉันเพิ่งทำแบบประเมินความเสี่ยง NCDs ที่ Pharmroo · ${meta.label} (${score.total} คะแนน) ลองทำดูสิ\n${shareUrl}`;
     window.open(`https://line.me/R/msg/text/?${encodeURIComponent(text)}`, "_blank");
-  };
-
-  const downloadImage = async () => {
-    if (downloading) return;
-    setDownloading(true);
-    try {
-      const res = await fetch(
-        `/api/share-image?score=${score.total}&risk=${riskLevel}`
-      );
-      const blob = await res.blob();
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement("a");
-      a.href = url;
-      a.download = `pharmroo-result-${score.total}.png`;
-      document.body.appendChild(a);
-      a.click();
-      a.remove();
-      URL.revokeObjectURL(url);
-      showToast("บันทึกรูปแล้ว · เอาไปโพสต์ที่ไหนก็ได้");
-    } catch {
-      showToast("บันทึกรูปไม่สำเร็จ");
-    } finally {
-      setDownloading(false);
-    }
   };
 
   return (
@@ -156,41 +124,18 @@ export function Result({ answers, onConsult, onRestart }: ResultProps) {
       </div>
 
       {/* Share row — directly under score card */}
-      <div className="mt-4 grid grid-cols-2 gap-2">
+      <div className="mt-4">
         <button
           type="button"
           onClick={shareToLine}
-          className="flex items-center justify-center gap-2 h-12 rounded-[14px] bg-[#06C755] text-white font-semibold text-[14px] active:opacity-90 transition-opacity"
+          className="w-full flex items-center justify-center gap-2 h-12 rounded-[14px] bg-[#06C755] text-white font-semibold text-[15px] active:opacity-90 transition-opacity"
         >
           <span className="w-6 h-6 rounded-full bg-white text-[#06C755] flex items-center justify-center text-[13px] font-bold font-[var(--font-latin)]">
             L
           </span>
           แชร์ไปที่ LINE
         </button>
-        <button
-          type="button"
-          onClick={downloadImage}
-          disabled={downloading}
-          className="flex items-center justify-center gap-2 h-12 rounded-[14px] bg-[var(--color-card)] border-[1.5px] border-[var(--color-line)] text-[var(--color-ink)] font-semibold text-[14px] disabled:opacity-50"
-        >
-          <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-            <path
-              d="M8 1.5V11M8 11L4 7M8 11L12 7M2 13.5h12"
-              stroke="currentColor"
-              strokeWidth="1.7"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-          </svg>
-          {downloading ? "กำลังบันทึก..." : "บันทึกรูป"}
-        </button>
       </div>
-
-      {shareToast && (
-        <div className="mt-2 px-3 py-2 text-center text-[12px] text-[var(--color-ink-soft)] bg-[var(--color-primary-soft)] rounded-[10px]">
-          {shareToast}
-        </div>
-      )}
 
       <div className="mt-7 mb-3 text-[18px] font-bold text-[var(--color-ink)] tracking-[-0.01em]">
         ความเสี่ยงแต่ละด้าน
