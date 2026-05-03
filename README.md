@@ -39,12 +39,12 @@ Assessment answers are **not** persisted.
 ## Deploy to Vercel
 
 1. Import GitHub repo on Vercel
-2. **Project name = `pharmroo`** (so the URL becomes `pharmroo.vercel.app`)
+2. Add custom domain `pharmroo.com` under **Settings → Domains**
 3. Set Environment Variables:
    ```
    NEXT_PUBLIC_SUPABASE_URL=https://YOUR_PROJECT.supabase.co
    SUPABASE_SERVICE_ROLE_KEY=eyJ...
-   NEXT_PUBLIC_SITE_URL=https://pharmroo.vercel.app
+   NEXT_PUBLIC_SITE_URL=https://pharmroo.com
    ```
 4. Deploy
 

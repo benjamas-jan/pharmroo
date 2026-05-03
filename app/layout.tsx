@@ -16,7 +16,7 @@ const plexLatin = IBM_Plex_Sans({
   display: "swap",
 });
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://pharmroo-five.vercel.app";
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://pharmroo.com";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
