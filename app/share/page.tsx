@@ -22,7 +22,9 @@ export async function generateMetadata({
   const params = await searchParams;
   const { score, risk } = parseParams(params.score, params.risk);
   const meta = RISK_META[risk];
-  const ogImage = `/api/share-image?score=${score}&risk=${risk}`;
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://pharmroo.com";
+  const ogImage = `${siteUrl}/api/share-image?score=${score}&risk=${risk}`;
+  const pageUrl = `${siteUrl}/share?score=${score}&risk=${risk}`;
 
   return {
     title: `${meta.label} · ${score} คะแนน — Pharmroo`,
@@ -30,11 +32,25 @@ export async function generateMetadata({
     openGraph: {
       title: `ผลประเมินสุขภาพ NCDs · ${meta.label}`,
       description: meta.headline,
-      images: [{ url: ogImage, width: 1080, height: 1350 }],
+      url: pageUrl,
+      siteName: "Pharmroo",
+      locale: "th_TH",
+      type: "website",
+      images: [
+        {
+          url: ogImage,
+          secureUrl: ogImage,
+          width: 1200,
+          height: 630,
+          type: "image/png",
+          alt: `ผลประเมินสุขภาพ NCDs · ${meta.label}`,
+        },
+      ],
     },
     twitter: {
       card: "summary_large_image",
       title: `ผลประเมินสุขภาพ NCDs · ${meta.label}`,
+      description: meta.headline,
       images: [ogImage],
     },
   };

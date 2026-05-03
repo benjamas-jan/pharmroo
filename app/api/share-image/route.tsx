@@ -26,52 +26,83 @@ export async function GET(req: Request) {
           width: "100%",
           height: "100%",
           display: "flex",
-          flexDirection: "column",
           background: "#F6F4EE",
-          padding: 80,
           fontFamily: "system-ui",
         }}
       >
-        {/* Brand mark */}
-        <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
-          <div
-            style={{
-              width: 72,
-              height: 72,
-              borderRadius: 20,
-              background: "#3C5A48",
-              color: "#fff",
-              fontSize: 36,
-              fontWeight: 700,
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-          >
-            P
-          </div>
-          <div style={{ display: "flex", flexDirection: "column" }}>
-            <div style={{ fontSize: 36, fontWeight: 700, color: "#1F2A24" }}>
-              Pharmroo
+        {/* Left: brand + CTA */}
+        <div
+          style={{
+            flex: 1,
+            display: "flex",
+            flexDirection: "column",
+            padding: "60px 50px",
+            justifyContent: "space-between",
+          }}
+        >
+          <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
+            <div
+              style={{
+                width: 64,
+                height: 64,
+                borderRadius: 18,
+                background: "#3C5A48",
+                color: "#fff",
+                fontSize: 32,
+                fontWeight: 700,
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              P
             </div>
-            <div style={{ fontSize: 20, color: "#8A988F", marginTop: 2 }}>
-              ฟามรู้ · ผลประเมิน NCDs
+            <div style={{ display: "flex", flexDirection: "column" }}>
+              <div style={{ fontSize: 30, fontWeight: 700, color: "#1F2A24" }}>
+                Pharmroo
+              </div>
+              <div style={{ fontSize: 18, color: "#8A988F", marginTop: 2 }}>
+                ฟามรู้ · ผลประเมิน NCDs
+              </div>
+            </div>
+          </div>
+
+          <div style={{ display: "flex", flexDirection: "column" }}>
+            <div
+              style={{
+                fontSize: 44,
+                fontWeight: 700,
+                color: "#1F2A24",
+                lineHeight: 1.15,
+                letterSpacing: "-0.02em",
+              }}
+            >
+              {meta.headline}
+            </div>
+            <div
+              style={{
+                fontSize: 22,
+                color: "#5C6B63",
+                marginTop: 16,
+                lineHeight: 1.4,
+              }}
+            >
+              ทำแบบประเมินของคุณ · pharmroo.com
             </div>
           </div>
         </div>
 
-        {/* Risk hero card */}
+        {/* Right: score panel */}
         <div
           style={{
+            width: 520,
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
             justifyContent: "center",
-            margin: "auto 0",
-            padding: "60px 40px",
-            borderRadius: 40,
             background: `${riskColor}14`,
-            border: `4px solid ${riskColor}`,
+            borderLeft: `4px solid ${riskColor}`,
+            padding: 40,
           }}
         >
           <div
@@ -80,18 +111,17 @@ export async function GET(req: Request) {
               borderRadius: 999,
               background: riskColor,
               color: "#fff",
-              fontSize: 28,
+              fontSize: 24,
               fontWeight: 700,
               letterSpacing: "0.04em",
-              marginBottom: 24,
+              marginBottom: 20,
             }}
           >
             {meta.label}
           </div>
-
           <div
             style={{
-              fontSize: 220,
+              fontSize: 240,
               fontWeight: 700,
               color: riskColor,
               lineHeight: 1,
@@ -103,54 +133,16 @@ export async function GET(req: Request) {
           <div
             style={{
               fontSize: 22,
-              color: "#8A988F",
+              color: "#5C6B63",
               marginTop: 8,
-              letterSpacing: "0.08em",
+              letterSpacing: "0.06em",
             }}
           >
             คะแนนความเสี่ยง
           </div>
-
-          <div
-            style={{
-              fontSize: 44,
-              fontWeight: 700,
-              color: "#1F2A24",
-              marginTop: 36,
-              textAlign: "center",
-              letterSpacing: "-0.02em",
-              lineHeight: 1.2,
-            }}
-          >
-            {meta.headline}
-          </div>
-        </div>
-
-        {/* Footer CTA */}
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            gap: 8,
-          }}
-        >
-          <div style={{ fontSize: 26, color: "#5C6B63", textAlign: "center" }}>
-            ประเมินความเสี่ยง NCDs ของคุณใน 2 นาที
-          </div>
-          <div
-            style={{
-              fontSize: 32,
-              fontWeight: 700,
-              color: "#3C5A48",
-              letterSpacing: "0.02em",
-            }}
-          >
-            pharmroo.com
-          </div>
         </div>
       </div>
     ),
-    { width: 1080, height: 1350 }
+    { width: 1200, height: 630 }
   );
 }
