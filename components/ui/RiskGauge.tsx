@@ -113,7 +113,7 @@ export function RiskGauge({ score, riskLevel }: RiskGaugeProps) {
         >
           {animated}
         </div>
-        <div className="text-[12px] text-[--color-ink-mute] mt-1 tracking-wider">
+        <div className="text-[12px] text-[var(--color-ink-mute)] mt-1 tracking-wider">
           คะแนนความเสี่ยง
         </div>
       </div>

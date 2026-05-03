@@ -61,11 +61,11 @@ export function SectionA({ answers, setAnswer }: SectionProps) {
         suggestion="130–220 cm"
       />
       {bmi && (
-        <div className="mt-2.5 px-3.5 py-2.5 bg-[--color-primary-soft] rounded-xl flex justify-between items-center">
-          <span className="text-[12px] text-[--color-ink-soft]">BMI (เกณฑ์ไทย)</span>
-          <span className="text-[14px] font-bold text-[--color-primary] font-[var(--font-latin)]">
+        <div className="mt-2.5 px-3.5 py-2.5 bg-[var(--color-primary-soft)] rounded-xl flex justify-between items-center">
+          <span className="text-[12px] text-[var(--color-ink-soft)]">BMI (เกณฑ์ไทย)</span>
+          <span className="text-[14px] font-bold text-[var(--color-primary)] font-[var(--font-latin)]">
             {bmi.toFixed(1)}
-            <span className="font-medium text-[12px] text-[--color-ink-soft] ml-1">
+            <span className="font-medium text-[12px] text-[var(--color-ink-soft)] ml-1">
               {bmiLabel(bmi)}
             </span>
           </span>
@@ -110,16 +110,16 @@ export function SectionA({ answers, setAnswer }: SectionProps) {
         }}
         className={`mt-2 px-3 py-2.5 w-full rounded-xl border border-dashed flex items-center justify-between text-[13px] font-medium transition-colors ${
           answers.waistUnknown
-            ? "bg-[--color-primary-soft] border-[--color-primary] text-[--color-primary]"
-            : "bg-transparent border-[--color-line] text-[--color-ink-soft]"
+            ? "bg-[var(--color-primary-soft)] border-[var(--color-primary)] text-[var(--color-primary)]"
+            : "bg-transparent border-[var(--color-line)] text-[var(--color-ink-soft)]"
         }`}
       >
         <span>ไม่ทราบรอบเอว — ประเมินจาก BMI แทน</span>
         <span
           className={`w-[18px] h-[18px] rounded-[5px] border-[1.5px] flex items-center justify-center text-[11px] font-bold ${
             answers.waistUnknown
-              ? "bg-[--color-primary] border-[--color-primary] text-white"
-              : "bg-transparent border-[--color-line] text-transparent"
+              ? "bg-[var(--color-primary)] border-[var(--color-primary)] text-white"
+              : "bg-transparent border-[var(--color-line)] text-transparent"
           }`}
         >
           ✓
@@ -189,8 +189,8 @@ export function SectionB({ answers, setAnswer }: SectionProps) {
         }}
       >
         <div className="pt-3.5">
-          <div className="text-[13px] font-semibold text-[--color-ink-soft] mb-2 flex items-center gap-2">
-            <span className="w-3.5 h-[1.5px] bg-[--color-primary] rounded-sm" />
+          <div className="text-[13px] font-semibold text-[var(--color-ink-soft)] mb-2 flex items-center gap-2">
+            <span className="w-3.5 h-[1.5px] bg-[var(--color-primary)] rounded-sm" />
             ระดับความหวาน
           </div>
           <div className="flex gap-2">

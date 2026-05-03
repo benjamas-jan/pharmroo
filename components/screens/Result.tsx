@@ -49,13 +49,13 @@ function SectionBar({ id, score, max }: SectionBarProps) {
   }, [pct]);
 
   return (
-    <div className="px-3.5 py-3 bg-[--color-card] border border-[--color-line] rounded-xl">
+    <div className="px-3.5 py-3 bg-[var(--color-card)] border border-[var(--color-line)] rounded-xl">
       <div className="flex justify-between items-baseline mb-2">
         <div className="flex items-center gap-2">
-          <span className="text-[10px] font-bold text-[--color-primary] tracking-[0.08em] bg-[--color-primary-soft] px-1.5 py-0.5 rounded font-[var(--font-latin)]">
+          <span className="text-[10px] font-bold text-[var(--color-primary)] tracking-[0.08em] bg-[var(--color-primary-soft)] px-1.5 py-0.5 rounded font-[var(--font-latin)]">
             {id}
           </span>
-          <span className="text-[16px] font-bold text-[--color-ink]">{meta.name}</span>
+          <span className="text-[16px] font-bold text-[var(--color-ink)]">{meta.name}</span>
         </div>
         <div
           className="text-[12px] font-bold px-2.5 py-0.5 rounded-full"
@@ -64,7 +64,7 @@ function SectionBar({ id, score, max }: SectionBarProps) {
           {riskLabel}
         </div>
       </div>
-      <div className="h-1.5 bg-[--color-line] rounded-full overflow-hidden">
+      <div className="h-1.5 bg-[var(--color-line)] rounded-full overflow-hidden">
         <div
           className="h-full rounded-full"
           style={{
@@ -87,10 +87,10 @@ export function Result({ answers, onConsult, onRestart }: ResultProps) {
 
   return (
     <div className="px-5 pt-5 pb-8">
-      <div className="flex justify-center items-center gap-1.5 text-[13px] font-bold text-[--color-ink-mute] tracking-[0.18em] mb-2">
-        <span className="w-[18px] h-px bg-[--color-line]" />
+      <div className="flex justify-center items-center gap-1.5 text-[13px] font-bold text-[var(--color-ink-mute)] tracking-[0.18em] mb-2">
+        <span className="w-[18px] h-px bg-[var(--color-line)]" />
         ผลประเมินของคุณ
-        <span className="w-[18px] h-px bg-[--color-line]" />
+        <span className="w-[18px] h-px bg-[var(--color-line)]" />
       </div>
 
       <div
@@ -107,15 +107,15 @@ export function Result({ answers, onConsult, onRestart }: ResultProps) {
           {meta.label}
         </div>
         <RiskGauge score={score.total} riskLevel={riskLevel} />
-        <div className="text-center mt-3 text-[28px] font-bold text-[--color-ink] tracking-[-0.02em] leading-tight">
+        <div className="text-center mt-3 text-[28px] font-bold text-[var(--color-ink)] tracking-[-0.02em] leading-tight">
           {meta.headline}
         </div>
-        <div className="text-center text-[15px] text-[--color-ink-soft] mt-2.5 leading-relaxed px-1">
+        <div className="text-center text-[15px] text-[var(--color-ink-soft)] mt-2.5 leading-relaxed px-1">
           {meta.body}
         </div>
       </div>
 
-      <div className="mt-7 mb-3 text-[18px] font-bold text-[--color-ink] tracking-[-0.01em]">
+      <div className="mt-7 mb-3 text-[18px] font-bold text-[var(--color-ink)] tracking-[-0.01em]">
         ความเสี่ยงแต่ละด้าน
       </div>
       <div className="flex flex-col gap-2">
@@ -129,23 +129,23 @@ export function Result({ answers, onConsult, onRestart }: ResultProps) {
         ))}
       </div>
 
-      <div className="mt-7 mb-3 text-[18px] font-bold text-[--color-ink] tracking-[-0.01em]">
+      <div className="mt-7 mb-3 text-[18px] font-bold text-[var(--color-ink)] tracking-[-0.01em]">
         คำแนะนำสำหรับคุณ
       </div>
       <div className="flex flex-col gap-2">
         {tips.map((tip, i) => (
           <div
             key={i}
-            className="flex gap-3 p-3.5 bg-[--color-card] border border-[--color-line] rounded-xl items-start"
+            className="flex gap-3 p-3.5 bg-[var(--color-card)] border border-[var(--color-line)] rounded-xl items-start"
           >
-            <div className="w-9 h-9 rounded-[10px] bg-[--color-primary-soft] flex items-center justify-center text-[18px] shrink-0">
+            <div className="w-9 h-9 rounded-[10px] bg-[var(--color-primary-soft)] flex items-center justify-center text-[18px] shrink-0">
               {tip.icon}
             </div>
             <div>
-              <div className="text-[15px] font-bold text-[--color-ink] mb-1">
+              <div className="text-[15px] font-bold text-[var(--color-ink)] mb-1">
                 {tip.title}
               </div>
-              <div className="text-[14px] text-[--color-ink-soft] leading-relaxed">
+              <div className="text-[14px] text-[var(--color-ink-soft)] leading-relaxed">
                 {tip.body}
               </div>
             </div>
@@ -160,7 +160,7 @@ export function Result({ answers, onConsult, onRestart }: ResultProps) {
         </PrimaryButton>
       </div>
 
-      <div className="mt-4 text-[12px] text-[--color-ink-mute] text-center leading-relaxed">
+      <div className="mt-4 text-[12px] text-[var(--color-ink-mute)] text-center leading-relaxed">
         ผลลัพธ์นี้เป็นเพียงแนวทางเบื้องต้น
         <br />
         หากกังวลควรพบแพทย์เพื่อตรวจสุขภาพ

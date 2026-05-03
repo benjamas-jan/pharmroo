@@ -45,7 +45,7 @@ export function Consult({ answers, onBack }: ConsultProps) {
   if (submitted) {
     return (
       <div className="px-6 py-6 h-full flex flex-col items-center justify-center text-center">
-        <div className="w-[72px] h-[72px] rounded-full bg-[--color-primary-soft] flex items-center justify-center mb-[18px]">
+        <div className="w-[72px] h-[72px] rounded-full bg-[var(--color-primary-soft)] flex items-center justify-center mb-[18px]">
           <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
             <path
               d="M6 16L13 23L26 9"
@@ -56,10 +56,10 @@ export function Consult({ answers, onBack }: ConsultProps) {
             />
           </svg>
         </div>
-        <div className="text-[22px] font-bold text-[--color-ink] tracking-[-0.02em]">
+        <div className="text-[22px] font-bold text-[var(--color-ink)] tracking-[-0.02em]">
           ส่งคำขอเรียบร้อย
         </div>
-        <div className="text-[14px] text-[--color-ink-soft] mt-2.5 leading-relaxed max-w-[260px]">
+        <div className="text-[14px] text-[var(--color-ink-soft)] mt-2.5 leading-relaxed max-w-[260px]">
           ทีมงานจะติดต่อกลับภายใน 24 ชม.
           <br />
           ขอบคุณที่ใส่ใจสุขภาพของตัวเองนะ 💚
@@ -74,23 +74,23 @@ export function Consult({ answers, onBack }: ConsultProps) {
   }
 
   const fieldClass =
-    "w-full px-4 py-3.5 border-[1.5px] border-[--color-line] rounded-xl bg-[--color-card] text-[--color-ink] text-[15px] outline-none box-border focus:border-[--color-primary] transition-colors";
-  const labelClass = "text-[13px] font-semibold text-[--color-ink] mb-1.5 block";
+    "w-full px-4 py-3.5 border-[1.5px] border-[var(--color-line)] rounded-xl bg-[var(--color-card)] text-[var(--color-ink)] text-[15px] outline-none box-border focus:border-[var(--color-primary)] transition-colors";
+  const labelClass = "text-[13px] font-semibold text-[var(--color-ink)] mb-1.5 block";
 
   return (
     <div className="px-5 pt-5 pb-8">
       <button
         type="button"
         onClick={onBack}
-        className="bg-transparent border-0 p-0 text-[--color-ink-soft] text-[13px] flex items-center gap-1 mb-4"
+        className="bg-transparent border-0 p-0 text-[var(--color-ink-soft)] text-[13px] flex items-center gap-1 mb-4"
       >
         ← กลับ
       </button>
 
-      <div className="text-[26px] font-bold text-[--color-ink] tracking-[-0.02em] leading-tight">
+      <div className="text-[26px] font-bold text-[var(--color-ink)] tracking-[-0.02em] leading-tight">
         ปรึกษากับเรา
       </div>
-      <div className="text-[14px] text-[--color-ink-soft] mt-2 leading-snug mb-6">
+      <div className="text-[14px] text-[var(--color-ink-soft)] mt-2 leading-snug mb-6">
         กรอกข้อมูลเพื่อให้ทีมงานติดต่อกลับ พร้อมคำแนะนำที่เหมาะกับคุณ
       </div>
 
@@ -134,11 +134,11 @@ export function Consult({ answers, onBack }: ConsultProps) {
             className={`${fieldClass} resize-none leading-snug`}
           />
         </div>
-        <div className="p-3 bg-[--color-primary-soft] rounded-[10px] text-[12px] text-[--color-ink-soft] leading-snug">
+        <div className="p-3 bg-[var(--color-primary-soft)] rounded-[10px] text-[12px] text-[var(--color-ink-soft)] leading-snug">
           🔒 ข้อมูลของคุณจะใช้สำหรับการติดต่อกลับเท่านั้น และเก็บเป็นความลับ
         </div>
         {error && (
-          <div className="px-3 py-2.5 bg-[--color-risk-high]/10 text-[--color-risk-high] text-[13px] rounded-[10px] border border-[--color-risk-high]/20">
+          <div className="px-3 py-2.5 bg-[var(--color-risk-high)]/10 text-[var(--color-risk-high)] text-[13px] rounded-[10px] border border-[var(--color-risk-high)]/20">
             {error}
           </div>
         )}

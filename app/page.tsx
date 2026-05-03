@@ -75,16 +75,16 @@ export default function PharmrooApp() {
   const showFooter = inSection;
 
   return (
-    <main className="min-h-dvh bg-[--color-bg] flex justify-center">
-      <div className="w-full max-w-[420px] min-h-dvh flex flex-col bg-[--color-bg]">
+    <main className="min-h-dvh bg-[var(--color-bg)] flex justify-center">
+      <div className="w-full max-w-[420px] min-h-dvh flex flex-col bg-[var(--color-bg)]">
         {showHeader && (
-          <div className="sticky top-0 z-10 bg-[--color-bg] border-b border-[--color-line] flex items-center gap-2.5 px-3 py-2">
+          <div className="sticky top-0 z-10 bg-[var(--color-bg)] border-b border-[var(--color-line)] flex items-center gap-2.5 px-3 py-2">
             <button
               type="button"
               onClick={goBack}
               disabled={step === 0}
               aria-label="ย้อนกลับ"
-              className="w-8 h-8 rounded-full flex items-center justify-center text-[--color-ink] disabled:opacity-30"
+              className="w-8 h-8 rounded-full flex items-center justify-center text-[var(--color-ink)] disabled:opacity-30"
             >
               <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
                 <path
@@ -97,10 +97,10 @@ export default function PharmrooApp() {
               </svg>
             </button>
             <div className="flex-1 text-center">
-              <div className="text-[13px] font-semibold text-[--color-ink] tracking-[-0.005em]">
+              <div className="text-[13px] font-semibold text-[var(--color-ink)] tracking-[-0.005em]">
                 Pharmroo
               </div>
-              <div className="text-[10.5px] text-[--color-ink-mute] mt-px">
+              <div className="text-[10.5px] text-[var(--color-ink-mute)] mt-px">
                 {step >= 1 && step <= 4 && "แบบประเมินความเสี่ยง"}
                 {step === 5 && "ผลประเมิน"}
                 {step === 6 && "ปรึกษาผู้เชี่ยวชาญ"}
@@ -110,7 +110,7 @@ export default function PharmrooApp() {
               type="button"
               onClick={restart}
               aria-label="ปิด"
-              className="w-8 h-8 rounded-full flex items-center justify-center text-[--color-ink-soft]"
+              className="w-8 h-8 rounded-full flex items-center justify-center text-[var(--color-ink-soft)]"
             >
               <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
                 <path
@@ -125,7 +125,7 @@ export default function PharmrooApp() {
         )}
 
         {showProgress && sectionStep && (
-          <div className="px-4 pt-3.5 pb-2 bg-[--color-bg] border-b border-[--color-line]">
+          <div className="px-4 pt-3.5 pb-2 bg-[var(--color-bg)] border-b border-[var(--color-line)]">
             <SectionProgress
               current={sectionStep}
               onJump={(idx) => {
@@ -137,7 +137,7 @@ export default function PharmrooApp() {
 
         <div
           ref={scrollRef}
-          className="flex-1 overflow-y-auto overflow-x-hidden bg-[--color-bg]"
+          className="flex-1 overflow-y-auto overflow-x-hidden bg-[var(--color-bg)]"
         >
           {step >= 1 && step <= 4 ? <div className="px-5 pt-2 pb-6">{body}</div> : body}
         </div>

@@ -26,13 +26,13 @@ export function NumberField({
   };
 
   return (
-    <div className="bg-[--color-card] border-[1.5px] border-[--color-line] rounded-[16px] p-4">
+    <div className="bg-[var(--color-card)] border-[1.5px] border-[var(--color-line)] rounded-[16px] p-4">
       <div className="flex justify-between items-baseline mb-2.5 gap-3">
-        <span className="text-[14px] font-semibold text-[--color-ink] whitespace-nowrap">
+        <span className="text-[14px] font-semibold text-[var(--color-ink)] whitespace-nowrap">
           {label}
         </span>
         {suggestion && (
-          <span className="text-[12px] text-[--color-ink-mute] whitespace-nowrap">
+          <span className="text-[12px] text-[var(--color-ink-mute)] whitespace-nowrap">
             {suggestion}
           </span>
         )}
@@ -42,7 +42,7 @@ export function NumberField({
           type="button"
           onClick={() => handle(-1)}
           aria-label="ลด"
-          className="w-10 h-10 rounded-full border-[1.5px] border-[--color-line] bg-[--color-card] text-[--color-ink] text-[22px] leading-none flex items-center justify-center"
+          className="w-10 h-10 rounded-full border-[1.5px] border-[var(--color-line)] bg-[var(--color-card)] text-[var(--color-ink)] text-[22px] leading-none flex items-center justify-center"
         >
           −
         </button>
@@ -58,15 +58,15 @@ export function NumberField({
               if (!isNaN(n)) onChange(n);
             }}
             placeholder="—"
-            className="w-full bg-transparent border-0 outline-0 text-center font-bold text-[32px] tracking-[-0.02em] text-[--color-ink] p-0"
+            className="w-full bg-transparent border-0 outline-0 text-center font-bold text-[32px] tracking-[-0.02em] text-[var(--color-ink)] p-0"
           />
-          <div className="text-[12px] text-[--color-ink-mute] -mt-0.5">{unit}</div>
+          <div className="text-[12px] text-[var(--color-ink-mute)] -mt-0.5">{unit}</div>
         </div>
         <button
           type="button"
           onClick={() => handle(+1)}
           aria-label="เพิ่ม"
-          className="w-10 h-10 rounded-full border-[1.5px] border-[--color-line] bg-[--color-card] text-[--color-ink] text-[22px] leading-none flex items-center justify-center"
+          className="w-10 h-10 rounded-full border-[1.5px] border-[var(--color-line)] bg-[var(--color-card)] text-[var(--color-ink)] text-[22px] leading-none flex items-center justify-center"
         >
           +
         </button>

@@ -22,10 +22,10 @@ export function SectionProgress({ current, onJump }: SectionProgressProps) {
               onClick={() => onJump?.(idx)}
               className={`min-w-[28px] h-7 rounded-full border-[1.5px] flex items-center justify-center gap-1.5 text-[12px] font-semibold transition-all duration-200 ease-out ${
                 state === "active"
-                  ? "px-3 bg-[--color-primary] border-[--color-primary] text-[--color-primary-ink]"
+                  ? "px-3 bg-[var(--color-primary)] border-[var(--color-primary)] text-[var(--color-primary-ink)]"
                   : state === "done"
-                  ? "w-7 px-0 bg-[--color-primary] border-[--color-primary] text-[--color-primary-ink]"
-                  : "w-7 px-0 bg-transparent border-[--color-line] text-[--color-ink-mute]"
+                  ? "w-7 px-0 bg-[var(--color-primary)] border-[var(--color-primary)] text-[var(--color-primary-ink)]"
+                  : "w-7 px-0 bg-transparent border-[var(--color-line)] text-[var(--color-ink-mute)]"
               }`}
             >
               {state === "done" ? (
@@ -48,7 +48,7 @@ export function SectionProgress({ current, onJump }: SectionProgressProps) {
             {i < SECTIONS.length - 1 && (
               <div
                 className={`w-3.5 h-[1.5px] rounded transition-colors duration-200 ${
-                  idx < current ? "bg-[--color-primary]" : "bg-[--color-line]"
+                  idx < current ? "bg-[var(--color-primary)]" : "bg-[var(--color-line)]"
                 }`}
               />
             )}

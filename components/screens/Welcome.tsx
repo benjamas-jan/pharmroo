@@ -17,19 +17,19 @@ export function Welcome({ onStart }: WelcomeProps) {
     <div className="px-5 pt-6 pb-8 flex flex-col min-h-full">
       {/* Brand */}
       <div className="flex items-center gap-2 mb-7">
-        <div className="w-8 h-8 rounded-[10px] bg-[--color-primary] text-[--color-primary-ink] font-bold text-[14px] flex items-center justify-center font-[var(--font-latin)]">
+        <div className="w-8 h-8 rounded-[10px] bg-[var(--color-primary)] text-[var(--color-primary-ink)] font-bold text-[14px] flex items-center justify-center font-[var(--font-latin)]">
           P
         </div>
-        <div className="text-[16px] font-semibold text-[--color-ink] tracking-[-0.01em]">
+        <div className="text-[16px] font-semibold text-[var(--color-ink)] tracking-[-0.01em]">
           Pharmroo
         </div>
-        <div className="text-[11px] text-[--color-ink-mute] ml-auto tracking-wider">
+        <div className="text-[11px] text-[var(--color-ink-mute)] ml-auto tracking-wider">
           ฟามรู้
         </div>
       </div>
 
       {/* Hero */}
-      <div className="relative h-[180px] mb-6 rounded-3xl overflow-hidden bg-[--color-primary-soft]">
+      <div className="relative h-[180px] mb-6 rounded-3xl overflow-hidden bg-[var(--color-primary-soft)]">
         <svg
           width="100%"
           height="100%"
@@ -54,17 +54,17 @@ export function Welcome({ onStart }: WelcomeProps) {
           <circle cx="220" cy="70" r="42" fill="#C7B89E" fillOpacity="0.55" />
           <circle cx="240" cy="130" r="28" fill="#3C5A48" fillOpacity="0.30" />
         </svg>
-        <div className="absolute left-5 bottom-4 bg-white px-2.5 py-1.5 rounded-full text-[11px] text-[--color-ink-soft] font-semibold shadow-sm">
+        <div className="absolute left-5 bottom-4 bg-white px-2.5 py-1.5 rounded-full text-[11px] text-[var(--color-ink-soft)] font-semibold shadow-sm">
           ⏱ ใช้เวลา 2 นาที
         </div>
       </div>
 
-      <h1 className="text-[28px] font-bold text-[--color-ink] tracking-[-0.025em] leading-[1.15] m-0">
+      <h1 className="text-[28px] font-bold text-[var(--color-ink)] tracking-[-0.025em] leading-[1.15] m-0">
         เช็กความเสี่ยง
         <br />
         โรค NCDs ของคุณ
       </h1>
-      <p className="text-[15px] text-[--color-ink-soft] leading-relaxed mt-3 mb-6">
+      <p className="text-[15px] text-[var(--color-ink-soft)] leading-relaxed mt-3 mb-6">
         ตอบคำถาม 15 ข้อ เกี่ยวกับร่างกาย เครื่องดื่ม อาหาร และไลฟ์สไตล์
         เพื่อรู้ระดับความเสี่ยงและจุดที่ควรปรับ
       </p>
@@ -73,14 +73,14 @@ export function Welcome({ onStart }: WelcomeProps) {
         {features.map(([t, sub], i) => (
           <div
             key={i}
-            className="flex gap-3 items-start p-3 bg-[--color-card] border border-[--color-line] rounded-xl"
+            className="flex gap-3 items-start p-3 bg-[var(--color-card)] border border-[var(--color-line)] rounded-xl"
           >
-            <div className="w-7 h-7 rounded-lg bg-[--color-primary-soft] text-[--color-primary] font-bold text-[13px] flex items-center justify-center shrink-0 font-[var(--font-latin)]">
+            <div className="w-7 h-7 rounded-lg bg-[var(--color-primary-soft)] text-[var(--color-primary)] font-bold text-[13px] flex items-center justify-center shrink-0 font-[var(--font-latin)]">
               {i + 1}
             </div>
             <div>
-              <div className="text-[14px] font-semibold text-[--color-ink]">{t}</div>
-              <div className="text-[12.5px] text-[--color-ink-mute] mt-0.5">{sub}</div>
+              <div className="text-[14px] font-semibold text-[var(--color-ink)]">{t}</div>
+              <div className="text-[12.5px] text-[var(--color-ink-mute)] mt-0.5">{sub}</div>
             </div>
           </div>
         ))}
@@ -88,7 +88,7 @@ export function Welcome({ onStart }: WelcomeProps) {
 
       <div className="mt-auto">
         <PrimaryButton onClick={onStart}>เริ่มทำแบบประเมิน</PrimaryButton>
-        <div className="text-[11px] text-[--color-ink-mute] text-center mt-3 leading-relaxed">
+        <div className="text-[11px] text-[var(--color-ink-mute)] text-center mt-3 leading-relaxed">
           แบบประเมินนี้เป็นเพียงแนวทางเบื้องต้น
           <br />
           ไม่ใช่การวินิจฉัยทางการแพทย์
