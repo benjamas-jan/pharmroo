@@ -112,94 +112,105 @@ export async function GET(req: Request) {
 
           {/* Body */}
           <div style={{ display: "flex", flex: 1, padding: "0 50px 40px" }}>
-            {/* Left: gauge + score overlay */}
+            {/* Left: gauge column */}
             <div
               style={{
                 width: 460,
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
-                position: "relative",
               }}
             >
-              <svg width="420" height="320" viewBox="0 0 260 200">
-                {bands.map((b, i) => (
-                  <path
-                    key={i}
-                    d={bandArc(b.from, b.to)}
-                    stroke={b.color}
-                    strokeOpacity="0.35"
-                    strokeWidth="14"
-                    fill="none"
-                    strokeLinecap="butt"
-                  />
-                ))}
-                {ticks.map(({ v, color }) => {
-                  const a = startA + (endA - startA) * (v / 100);
-                  const inner = {
-                    x: cx + (r - 16) * Math.cos(a),
-                    y: cy + (r - 16) * Math.sin(a),
-                  };
-                  const outer = {
-                    x: cx + (r + 16) * Math.cos(a),
-                    y: cy + (r + 16) * Math.sin(a),
-                  };
-                  return (
-                    <line
-                      key={v}
-                      x1={inner.x}
-                      y1={inner.y}
-                      x2={outer.x}
-                      y2={outer.y}
-                      stroke={color}
-                      strokeWidth="3.5"
-                      strokeLinecap="round"
-                    />
-                  );
-                })}
-                <path
-                  d={arcPath(startA, fillToA)}
-                  stroke={riskColor}
-                  strokeWidth="14"
-                  fill="none"
-                  strokeLinecap="round"
-                />
-              </svg>
-
-              {/* Score, centered inside the arc bowl */}
+              {/* Gauge wrapper sized exactly like the SVG so the score
+                  overlay's `top` is measured against the SVG, not the
+                  surrounding flex container. */}
               <div
                 style={{
-                  position: "absolute",
-                  top: 130,
-                  left: 0,
-                  right: 0,
+                  position: "relative",
+                  width: 420,
+                  height: 320,
                   display: "flex",
-                  flexDirection: "column",
-                  alignItems: "center",
                 }}
               >
+                <svg width="420" height="320" viewBox="0 0 260 200">
+                  {bands.map((b, i) => (
+                    <path
+                      key={i}
+                      d={bandArc(b.from, b.to)}
+                      stroke={b.color}
+                      strokeOpacity="0.35"
+                      strokeWidth="14"
+                      fill="none"
+                      strokeLinecap="butt"
+                    />
+                  ))}
+                  {ticks.map(({ v, color }) => {
+                    const a = startA + (endA - startA) * (v / 100);
+                    const inner = {
+                      x: cx + (r - 16) * Math.cos(a),
+                      y: cy + (r - 16) * Math.sin(a),
+                    };
+                    const outer = {
+                      x: cx + (r + 16) * Math.cos(a),
+                      y: cy + (r + 16) * Math.sin(a),
+                    };
+                    return (
+                      <line
+                        key={v}
+                        x1={inner.x}
+                        y1={inner.y}
+                        x2={outer.x}
+                        y2={outer.y}
+                        stroke={color}
+                        strokeWidth="3.5"
+                        strokeLinecap="round"
+                      />
+                    );
+                  })}
+                  <path
+                    d={arcPath(startA, fillToA)}
+                    stroke={riskColor}
+                    strokeWidth="14"
+                    fill="none"
+                    strokeLinecap="round"
+                  />
+                </svg>
+
+                {/* Score overlay — top aligned to viewBox y≈56 (× 1.6 scale) */}
                 <div
                   style={{
+                    position: "absolute",
+                    top: 95,
+                    left: 0,
+                    right: 0,
                     display: "flex",
-                    fontSize: 100,
-                    fontWeight: 700,
-                    color: riskColor,
-                    lineHeight: 1,
-                    letterSpacing: "-0.04em",
+                    flexDirection: "column",
+                    alignItems: "center",
                   }}
                 >
-                  {score}
-                </div>
-                <div
-                  style={{
-                    display: "flex",
-                    fontSize: 16,
-                    color: "#8A988F",
-                    marginTop: 6,
-                    letterSpacing: "0.08em",
-                  }}
-                >
-                  คะแนนความเสี่ยง
+                  <div
+                    style={{
+                      display: "flex",
+                      fontSize: 90,
+                      fontWeight: 700,
+                      color: riskColor,
+                      lineHeight: 1,
+                      letterSpacing: "-0.04em",
+                    }}
+                  >
+                    {score}
+                  </div>
+                  <div
+                    style={{
+                      display: "flex",
+                      fontSize: 14,
+                      color: "#8A988F",
+                      marginTop: 6,
+                      letterSpacing: "0.08em",
+                    }}
+                  >
+                    คะแนนความเสี่ยง
+                  </div>
                 </div>
               </div>
             </div>
