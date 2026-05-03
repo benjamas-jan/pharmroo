@@ -37,10 +37,10 @@ export default async function OG() {
             P
           </div>
           <div style={{ display: "flex", flexDirection: "column" }}>
-            <div style={{ fontSize: 32, fontWeight: 700, color: "#1F2A24" }}>
+            <div style={{ display: "flex", fontSize: 32, fontWeight: 700, color: "#1F2A24" }}>
               Pharmroo
             </div>
-            <div style={{ fontSize: 18, color: "#8A988F", marginTop: 2 }}>
+            <div style={{ display: "flex", fontSize: 18, color: "#8A988F", marginTop: 2 }}>
               ฟามรู้
             </div>
           </div>
@@ -57,6 +57,7 @@ export default async function OG() {
         >
           <div
             style={{
+              display: "flex",
               fontSize: 96,
               fontWeight: 700,
               color: "#1F2A24",
@@ -68,6 +69,7 @@ export default async function OG() {
           </div>
           <div
             style={{
+              display: "flex",
               fontSize: 96,
               fontWeight: 700,
               color: "#3C5A48",
@@ -79,6 +81,7 @@ export default async function OG() {
           </div>
           <div
             style={{
+              display: "flex",
               fontSize: 32,
               color: "#5C6B63",
               marginTop: 12,
