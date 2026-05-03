@@ -45,8 +45,10 @@ Assessment answers are **not** persisted.
    NEXT_PUBLIC_SUPABASE_URL=https://YOUR_PROJECT.supabase.co
    SUPABASE_SERVICE_ROLE_KEY=eyJ...
    NEXT_PUBLIC_SITE_URL=https://pharmroo.com
-   ADMIN_PASSWORD=...                  # for /admin/leads
-   LEAD_NOTIFICATION_WEBHOOK=...       # optional: Slack/Discord/Zapier URL
+   ADMIN_PASSWORD=...                              # for /admin/leads
+   RESEND_API_KEY=re_...                           # optional: email notify on new lead
+   LEAD_NOTIFICATION_EMAIL=you@example.com         # recipient
+   LEAD_NOTIFICATION_FROM=Pharmroo <notify@...>    # sender (verify domain on Resend)
    ```
 4. Deploy
 
@@ -56,12 +58,19 @@ Assessment answers are **not** persisted.
 by HTTP Basic Auth using `ADMIN_PASSWORD` — the browser shows a native
 login prompt (any username, the password is checked).
 
-## Lead notifications
+## Lead notifications (email)
 
-Set `LEAD_NOTIFICATION_WEBHOOK` to a Slack/Discord/Zapier/n8n webhook URL
-to get pinged when a new lead is submitted. The payload sends both `text`
-(Slack format) and `content` (Discord format) fields, so the same URL
-works for either platform. Leave the env var blank to disable.
+Sends an email via [Resend](https://resend.com) on every new lead. Setup:
+
+1. Sign up at resend.com (free 3,000 emails/month)
+2. **API Keys → Create API Key** → copy `re_...` → Vercel env `RESEND_API_KEY`
+3. Set `LEAD_NOTIFICATION_EMAIL` to the recipient address
+4. Default sender is `onboarding@resend.dev` which works immediately but
+   often lands in spam. To fix: **Domains → Add Domain** → enter
+   `pharmroo.com` → add the DNS records Resend shows → wait for verify →
+   set `LEAD_NOTIFICATION_FROM=Pharmroo <notify@pharmroo.com>`
+
+Leave `RESEND_API_KEY` blank to disable email notifications.
 
 ## Analytics
 
